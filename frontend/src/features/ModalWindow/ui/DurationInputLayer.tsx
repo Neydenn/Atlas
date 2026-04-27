@@ -19,7 +19,7 @@ export const DurationInputLayer = ({ label, onChange, value }: DurationInputLaye
     return (
         <Box>
             <Typography sx={{ textAlign: 'center', mb: 1, fontWeight: 'bold' }}>{label}</Typography>
-            <Grid container spacing={2} sx={{ border: '1px solid #334155', p: 2, borderRadius: '24px'}}>
+            <Grid container spacing={2} sx={{ border: '1px solid #3A463F', p: 2, borderRadius: '24px'}}>
                 <Grid size={4}>
                     <TimeCountTextField
                         label="Дни"

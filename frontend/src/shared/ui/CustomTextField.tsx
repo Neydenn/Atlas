@@ -9,23 +9,23 @@ interface CustomTextFieldProps {
 
 const styleTextField = {
     '& .MuiOutlinedInput-root': {
-        color: '#FFFFFF',
+        color: '#F5F2E8',
         '& fieldset': {
-            borderColor: '#334155',
+            borderColor: '#3A463F',
             borderRadius: '24px',
         },
         '&:hover fieldset': {
-            borderColor: '#475569',
+            borderColor: '#526157',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#3B82F6',
+            borderColor: '#2E8F7D',
         },
     },
     '& .MuiInputLabel-root': {
-        color: '#94A3B8',
+        color: '#A7B0A6',
     },
     '& .MuiInputLabel-root.Mui-focused': {
-        color: '#3B82F6',
+        color: '#52B6A4',
     },
 }
 

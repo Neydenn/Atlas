@@ -79,7 +79,7 @@ const ModalWindow = ({ isOpen, setOpenWindow }: ModalWindowProps) => {
                     </Grid>
                 ))}
                 <Grid size={12} sx={{ display: 'flex', justifyContent: 'center', mt: 4}}>
-                    <Button onClick={handleClick} variant="contained" fullWidth sx={{ maxWidth: '50%', borderRadius: '24px'}}>
+                    <Button onClick={handleClick} variant="contained" fullWidth sx={{ maxWidth: '50%', borderRadius: '24px', backgroundColor: '#2E8F7D', color: '#F5F2E8', '&:hover': { backgroundColor: '#247568' },}}>
                         Создать
                     </Button>
                 </Grid>

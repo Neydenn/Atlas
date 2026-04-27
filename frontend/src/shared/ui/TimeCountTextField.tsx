@@ -5,8 +5,8 @@ const durationCardSx = {
   height: 56,
   borderRadius: "16px",
   background:
-    "linear-gradient(145deg, rgba(15,23,42,0.95), rgba(30,41,59,0.75))",
-  border: "1px solid #334155",
+    "linear-gradient(145deg, rgba(22,24,26,0.95), rgba(34,39,37,0.78))",
+  border: "1px solid #3A463F",
   display: "flex",
   alignItems: "center",
   px: 2,
@@ -14,18 +14,18 @@ const durationCardSx = {
   transition: "0.2s ease",
 
   "&:hover": {
-    borderColor: "#475569",
+    borderColor: "#526157",
   },
 
   "&:focus-within": {
-    borderColor: "#3B82F6",
-    boxShadow: "0 0 0 2px rgba(59,130,246,0.2)",
+    borderColor: "#2E8F7D",
+    boxShadow: "0 0 0 2px rgba(46,143,125,0.22)",
   },
 };
 
 const inputSx = {
   "& .MuiInputBase-root": {
-    color: "#F8FAFC",
+    color: "#F5F2E8",
     fontSize: "18px",
     fontWeight: 600,
   },
@@ -35,7 +35,7 @@ const inputSx = {
   },
 
   "& .MuiInputBase-input::placeholder": {
-    color: "#64748B",
+    color: "#7F897F",
     opacity: 1,
   },
 
@@ -62,7 +62,7 @@ export const TimeCountTextField = ({ label, name, onChange, value }: TimeCountTe
     <Box sx={durationCardSx}>
       <Typography
         sx={{
-          color: "#94A3B8",
+          color: "#A7B0A6",
           fontSize: "13px",
           fontWeight: 600,
           minWidth: "48px",
