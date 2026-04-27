@@ -1,5 +1,7 @@
 import {ConfigService} from "@nestjs/config";
 import {TypeOrmModuleOptions} from "@nestjs/typeorm";
+import {TaskEntity} from "../../modules/tasks/task.entity";
+import {UsersEntity} from "../../modules/auth/auth.entity";
 
 
 export const getTypeOrmConfig = (
@@ -13,4 +15,5 @@ export const getTypeOrmConfig = (
     database: config.get<string>('db.name'),
     autoLoadEntities: true,
     synchronize: false,
+    entities: [TaskEntity, UsersEntity]
 })

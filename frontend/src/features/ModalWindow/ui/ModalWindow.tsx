@@ -6,6 +6,8 @@ import {createTaskFields} from "../model/create-task-fields.ts";
 import {DurationInputLayer} from "./DurationInputLayer.tsx";
 import type {TimeFormData} from "../model/time-form-data.ts";
 import {styleModal} from "../styles/styleModal.ts";
+import {createTask} from "../api/createTask.ts";
+import {getTimeToIntervalType} from "../../../shared/utils/getTimeToIntervalType.ts";
 
 interface ModalWindowProps {
     isOpen: boolean;
@@ -37,8 +39,16 @@ const ModalWindow = ({ isOpen, setOpenWindow }: ModalWindowProps) => {
     };
 
     const handleClick = () => {
-        const data: TaskFormData = formData;
-        console.log(data);
+        const fullPlanTimeTask = getTimeToIntervalType(formData.planTime)
+        const fullFactTimeTask = getTimeToIntervalType(formData.factTime);
+
+        const data = {
+            ...formData,
+            plantime: fullPlanTimeTask,
+            factTime: fullFactTimeTask,
+        }
+
+        console.log(createTask(data));
     }
 
     return (
