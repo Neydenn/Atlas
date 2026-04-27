@@ -1,8 +1,7 @@
-export const statusMap = {
+import type {status} from "./status.type.ts";
+
+export const taskStatusMap: Record<status, string> = {
     "success": "Выполнено",
     "process": "В процессе",
     "not completed": "Не выполнено",
 };
-for (const [key, value] of Object.entries(statusMap)) {
-    console.log(key, value);
-}

@@ -1,10 +1,11 @@
-import {TextField} from "@mui/material";
+import {Grid, TextField} from "@mui/material";
 
 interface CustomTextFieldProps {
     onChange: (value: string) => void;
     label: string;
-    value: string;
-};
+    value: string | number;
+    isTypeNumber?: boolean;
+}
 
 const styleTextField = {
     '& .MuiOutlinedInput-root': {
@@ -28,14 +29,17 @@ const styleTextField = {
     },
 }
 
-export const CustomTextField = ({onChange, value, label}: CustomTextFieldProps) => {
+export const CustomTextField = ({onChange, value, label, isTypeNumber}: CustomTextFieldProps) => {
     return (
-        <TextField
-            fullWidth
-            value={value}
-            sx={styleTextField}
-            onChange={(e) => onChange(e.target.value)}
-            label={label}
-        />
+        <Grid sx={{ p: 2, mt: 4 }}>
+            <TextField
+                fullWidth
+                value={value}
+                sx={styleTextField}
+                onChange={(e) => onChange(e.target.value)}
+                label={label}
+                {...(isTypeNumber ? { type: "number" }: {})}
+            />
+        </Grid>
     )
 }

@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import {Header} from "../../shared/ui/Header/Header.tsx";
-import {Task} from "../../shared/ui/Task/Task.tsx";
+import {Header} from "../../widgets/Header/Header.tsx";
+import {Task} from "../../entities/Task/ui/Task.tsx";
 import {useState} from "react";
-import ModalWindow from "../../shared/ui/ModalWindow/ModalWindow.tsx";
+import ModalWindow from "../../features/ModalWindow/ui/ModalWindow.tsx";
 
 export const MainPage = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
