@@ -3,16 +3,16 @@ import {IsInt, IsNotEmpty, IsString, Max, Min} from "class-validator";
 export class CreateTaskDto {
     @IsString()
     @IsNotEmpty()
-    taskName: string;
+    taskName!: string;
 
     @IsString()
     @IsNotEmpty()
-    planTime: string
+    planTime!: string
 
     @IsString()
     @IsNotEmpty()
-    factTime: string
+    factTime!: string
 
     @IsString()
-    description: string
+    description!: string
 }

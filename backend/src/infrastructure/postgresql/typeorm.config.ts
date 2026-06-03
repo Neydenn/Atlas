@@ -10,10 +10,11 @@ export const getTypeOrmConfig = (
     type: "postgres",
     host: config.get<string>('db.host'),
     port: config.get<number>('db.port'),
-    username: config.get<string>('db.username'),
+    username: config.get<string>('db.user'),
     password: config.get<string>('db.password'),
     database: config.get<string>('db.name'),
     autoLoadEntities: true,
     synchronize: false,
     entities: [TaskEntity, UsersEntity]
 })
+

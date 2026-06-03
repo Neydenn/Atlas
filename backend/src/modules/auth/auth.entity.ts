@@ -3,20 +3,20 @@ import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 @Entity('users')
 export class UsersEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
-    username: string;
+    username!: string;
 
     @Column()
-    email: string;
+    email!: string;
 
     @Column()
-    password_hash: string;
+    password_hash!: string;
 
     @Column({ type: "timestamptz" })
-    created_at: Date;
+    created_at!: Date;
 
     @Column({ type: "timestamptz" })
-    updated_at: Date;
+    updated_at!: Date;
 }

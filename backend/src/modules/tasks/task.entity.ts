@@ -4,27 +4,27 @@ import {UsersEntity} from "../auth/auth.entity";
 @Entity('task')
 export class TaskEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
-    user_id: number;
+    user_id!: number;
 
     @ManyToOne(() => UsersEntity)
     @JoinColumn({ name: 'user_id'})
-    user: UsersEntity;
+    user!: UsersEntity;
 
     @Column({ type: 'interval' })
-    plan_time: string;
+    plan_time!: string;
 
     @Column({ type: "interval" })
-    fact_time: string;
+    fact_time!: string;
 
     @Column({ type: 'text'})
-    description: string;
+    description!: string;
 
     @Column({ type: "timestamptz" })
-    created_at: Date;
+    created_at!: Date;
 
     @Column({ type: "timestamptz" })
-    updated_at: Date;
+    updated_at!: Date;
 }
