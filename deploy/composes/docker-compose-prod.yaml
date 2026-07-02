@@ -1,0 +1,9 @@
+services:
+  tasks:
+    container_name: tasks
+    build:
+      context: ../../tasks
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
