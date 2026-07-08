@@ -1,11 +1,20 @@
 services:
   tasks:
-    container_name: tasks
+    container_name: task_service
     build:
       context: ../../tasks
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    restart: unless-stopped
+
+  auth:
+    container_name: auth_service
+    build:
+      context: ../../auth
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
     restart: unless-stopped
 
   client:
