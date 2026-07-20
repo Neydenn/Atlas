@@ -2,6 +2,7 @@
 .env
 .venv
 __pycache__/
+package-look.json
 *.pyc
 node_modules
 .DS_Store
