@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
 import { InfrastructureType } from '../../../../shared/constants/infrastructure-type';
 import { Knex } from 'knex';
 import { RegisterDto } from '../dto/register-dto';
 import { User } from './types/user';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersRepository {
@@ -19,6 +19,10 @@ export class UsersRepository {
         passwordHash: registerDto.password,
       })
       .returning('*');
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
     return user;
   }
