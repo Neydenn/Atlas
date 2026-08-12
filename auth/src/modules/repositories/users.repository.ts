@@ -26,4 +26,26 @@ export class UsersRepository {
 
     return user;
   }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user: User | undefined = await this.pg<User>('auth_user')
+      .where('email', email)
+      .first();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
+  async getUserById(id: string): Promise<User> {
+    const user: User | undefined = await this.pg<User>('auth_user').where('id', id).first();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
 }

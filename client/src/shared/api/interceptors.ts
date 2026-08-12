@@ -10,12 +10,12 @@ baseApi.interceptors.request.use((config) => {
   return config;
 })
 
-baseApi.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response?.status === 401 && !error.config._retry) {
-      error.config._retry = true;
-      
-    }
-  }
-)
+// baseApi.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     if (error.response?.status === 401 && !error.config._retry) {
+//       error.config._retry = true;
+//
+//     }
+//   }
+// )
