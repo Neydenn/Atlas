@@ -1,9 +1,11 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { RegisterDto } from './dto/register-dto';
 import { AuthService } from './services/auth.service';
 import type { Response } from 'express';
+import { AuthGuard } from './guards/access-validate';
 
 @Controller('auth')
+@UseGuards(AuthGuard)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -11,7 +13,7 @@ export class AuthController {
   async register(
     @Body() createUserData: RegisterDto,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<string> {
+  ): Promise<Record<string, string>> {
     const { accessToken, refreshToken } =
       await this.authService.createUser(createUserData);
 
@@ -22,6 +24,11 @@ export class AuthController {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return accessToken;
+    return {
+      token: accessToken,
+    };
   }
+
+  // @Post("login")
+  @Post('refresh')
 }

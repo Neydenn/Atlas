@@ -5,7 +5,11 @@ interface LoginData {
   password: string;
 }
 
-export const login = async (data: LoginData) => {
+interface LoginResponse {
+  token: string;
+}
+
+export const login = async (data: LoginData): Promise<LoginResponse> => {
   try {
     const response = await baseApi.post(`/auth/login`, data);
     return response.data;

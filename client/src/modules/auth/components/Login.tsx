@@ -4,11 +4,14 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import {login} from "../api/login.ts";
 import {AlertNotification} from "../../../shared/ui/alert-notification/AlertNotification.tsx";
+import {useAuthStore} from "../store/AuthStore.ts";
 
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const setToken = useAuthStore((state) => state.setToken);
+
 
   const requestData = async () => {
     if (!email || !password) {
@@ -17,6 +20,9 @@ export const Login = () => {
     }
 
     const data = await login({email, password});
+    if (data) {
+      setToken(data.token);
+    }
   }
 
   return (

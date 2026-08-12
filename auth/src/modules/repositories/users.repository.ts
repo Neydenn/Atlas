@@ -21,7 +21,7 @@ export class UsersRepository {
       .returning('*');
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('User does not exist');
     }
 
     return user;
