@@ -1,11 +1,23 @@
 import {Box, Button, Checkbox, Divider, Stack, TextField, Typography} from "@mui/material";
 import {AtlasIconSection} from "../../../shared/ui/atlasIcon-section/AtlasIconSection.tsx";
 import {useState} from "react";
+import {Link} from "react-router-dom";
+import {login} from "../api/login.ts";
+import {AlertNotification} from "../../../shared/ui/alert-notification/AlertNotification.tsx";
 
 export const Login = () => {
-  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+
+  const requestData = async () => {
+    if (!email || !password) {
+      setAlertOpen(true);
+      return;
+    }
+
+    const data = await login({email, password});
+  }
 
   return (
     <Box
@@ -23,13 +35,6 @@ export const Login = () => {
         Войдите, чтобы продолжить работу в Atlas.
       </Typography>
       <Stack component='form' spacing={2.25}>
-        <TextField
-          fullWidth
-          placeholder="Введите имя"
-          label="Имя"
-          autoComplete='Имя'
-          onChange={(e) => {setUsername(e.target.value)}}
-        />
         <TextField
           fullWidth
           placeholder="Введите email"
@@ -75,10 +80,25 @@ export const Login = () => {
         <Divider/>
         <Button
           variant='contained'
+          onClick={() => requestData()}
         >
           Войти
         </Button>
+        <Typography
+          variant="body1"
+          component={Link}
+          to="/auth/register"
+          sx={{
+            textAlign: 'center',
+            cursor: 'pointer',
+            mt: 1,
+            '&:hover': {
+              textDecoration: 'underline',
+            }
+          }}
+        >Нет аккаунта? Зарегистрироваться</Typography>
       </Stack>
+      <AlertNotification value={alertOpen} setValue={setAlertOpen} />
     </Box>
   );
 };

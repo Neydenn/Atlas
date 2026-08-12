@@ -1,0 +1,1 @@
+export type locationType = "/auth/login" | "/auth/register";

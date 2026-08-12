@@ -1,12 +1,25 @@
 services:
+  gateway:
+    container_name: gateway
+    build:
+      context: ../../gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    depends_on:
+      - client
+
   tasks:
     container_name: task_service
     build:
       context: ../../tasks
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "3002:3002"
     restart: unless-stopped
+    depends_on:
+      - gateway
 
   auth:
     container_name: auth_service
@@ -14,8 +27,10 @@ services:
       context: ../../auth
       dockerfile: Dockerfile
     ports:
-      - "8001:8001"
+      - "3001:3001"
     restart: unless-stopped
+    depends_on:
+      - gateway
 
   client:
     container_name: frontend

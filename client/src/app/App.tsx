@@ -4,7 +4,7 @@ import {AuthPage} from "../modules/auth/pages/AuthPage.tsx";
 export function App() {
   return (
     <Routes>
-      <Route path='/' element={<AuthPage />} />
+      <Route path='/auth/*' element={<AuthPage />} />
       <Route path='/test' element={<div>test</div>} />
     </Routes>
   )

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { v4 as uuid } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { ConfigService } from '@nestjs/config';
 import { User } from '../repositories/types/user';
 import { Token } from './types/token';
@@ -19,7 +19,7 @@ export class CustomJwtService {
 
     const refreshPayload = {
       ...accessPayload,
-      jti: uuid(),
+      jti: randomUUID(),
     };
 
     const [accessToken, refreshToken] = await Promise.all([

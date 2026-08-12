@@ -1,11 +1,26 @@
 import {Box, Button, Checkbox, Divider, Stack, TextField, Typography} from "@mui/material";
 import {AtlasIconSection} from "../../../shared/ui/atlasIcon-section/AtlasIconSection.tsx";
 import {useState} from "react";
+import {Link} from "react-router-dom";
+import {register} from "../api/register.ts";
+import {AlertNotification} from "../../../shared/ui/alert-notification/AlertNotification.tsx";
 
 export const Register = () => {
-
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+
+
+  const requestRegister = async () => {
+    if (!email || !password) {
+      setAlertOpen(true);
+      return;
+    }
+
+    const data = await register({username, email, password});
+    console.log(data);
+  }
 
   return (
     <Box
@@ -17,12 +32,20 @@ export const Register = () => {
     >
       <AtlasIconSection />
       <Typography variant='h2' component='h1' sx={{ mb: 1 }}>
-        Добро пожаловать
+        Добро пожаловать!
       </Typography>
       <Typography color='text.secondary' sx={{ mb: 4 }}>
-        Войдите, чтобы продолжить работу в Atlas.
+        Зарегистрируйтесь, чтобы продолжить работу в Atlas.
       </Typography>
       <Stack component='form' spacing={2.25}>
+        <TextField
+          fullWidth
+          placeholder="Введите имя"
+          label="Имя"
+          autoComplete='Имя'
+          value={username}
+          onChange={(e) => {setUsername(e.target.value)}}
+        />
         <TextField
           fullWidth
           placeholder="Введите email"
@@ -68,10 +91,25 @@ export const Register = () => {
         <Divider/>
         <Button
           variant='contained'
+          onClick={() => requestRegister()}
         >
           Войти
         </Button>
+        <Typography
+          variant="body1"
+          component={Link}
+          to="/auth/login"
+          sx={{
+            textAlign: 'center',
+            cursor: 'pointer',
+            mt: 1,
+            '&:hover': {
+              textDecoration: 'underline',
+            }
+          }}
+        >Есть аккаунта? Авторизоваться</Typography>
       </Stack>
+      <AlertNotification value={alertOpen} setValue={setAlertOpen} />
     </Box>
   )
 }

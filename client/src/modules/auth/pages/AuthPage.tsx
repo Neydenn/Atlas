@@ -2,8 +2,13 @@ import {Box} from "@mui/material";
 import {colors} from "../../../shared/atlas-ui/theme/colors.ts";
 import {AuthHero} from "../components/AuthHero.tsx";
 import {Login} from "../components/Login.tsx";
+import {type Location, useLocation} from "react-router-dom";
+import type {locationType} from "../types/location-type.ts";
+import {Register} from "../components/Register.tsx";
 
 export const AuthPage = () => {
+  const location: Location<locationType> = useLocation();
+
   return (
     <Box
       component="main"
@@ -41,7 +46,7 @@ export const AuthPage = () => {
             py: { xs: 5, sm: 7 },
           }}
         >
-          <Login />
+          {location.pathname === '/auth/login' ? <Login /> : <Register />}
         </Box>
       </Box>
     </Box>
