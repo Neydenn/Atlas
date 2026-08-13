@@ -5,21 +5,35 @@ services:
       context: ../../gateway
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5001"
     restart: unless-stopped
     depends_on:
       - client
 
-  tasks:
-    container_name: task_service
-    build:
-      context: ../../tasks
-      dockerfile: Dockerfile
-    ports:
-      - "3002:3002"
+  redis:
+    container_name: redisAtlas
+    image: redis:7-alpine
     restart: unless-stopped
-    depends_on:
-      - gateway
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+#  tasks:
+#    container_name: task_service
+#    build:
+#      context: ../../tasks
+#      dockerfile: Dockerfile
+#    ports:
+#      - "3002:3002"
+#    restart: unless-stopped
+#    depends_on:
+#      - gateway
 
   auth:
     container_name: auth_service
@@ -31,6 +45,14 @@ services:
     restart: unless-stopped
     depends_on:
       - gateway
+      - redis
+    environment:
+      DB_HOST: host.lima.internal
+      DB_PORT: 5432
+      DB_NAME: atlas_users
+      user: ${user}
+      password: ${password}
+      secret: ${secret}
 
   client:
     container_name: frontend
@@ -40,3 +62,6 @@ services:
     ports:
       - "5173:5173"
     restart: unless-stopped
+
+volumes:
+  redis_data:

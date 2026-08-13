@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './services/auth.service';
 import { UsersRepository } from './repositories/users.repository';
 import { CustomJwtService } from './services/jwt.service';
+import { RedisModule } from '../infrastructure/redis.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CustomJwtService } from './services/jwt.service';
       }),
     }),
     DatabaseModule,
+    RedisModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, UsersRepository, CustomJwtService],

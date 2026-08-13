@@ -1,8 +1,9 @@
 import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { RegisterDto } from './dto/register-dto';
 import { AuthService } from './services/auth.service';
-import type { Response, Request } from 'express';
+import express from 'express';
 import { LoginDto } from './dto/login-dto';
+import { refreshCookieSettings } from './shared/refresh-cookie-settings';
 
 @Controller('auth')
 // @UseGuards(AuthGuard)
@@ -12,17 +13,12 @@ export class AuthController {
   @Post('register')
   async register(
     @Body() createUserData: RegisterDto,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: express.Response,
   ): Promise<Record<string, string>> {
     const { accessToken, refreshToken } =
       await this.authService.createUser(createUserData);
 
-    response.cookie('token', refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    response.cookie('token', refreshToken, refreshCookieSettings);
 
     return {
       token: accessToken,
@@ -32,17 +28,12 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() loginData: LoginDto,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: express.Response,
   ): Promise<Record<string, string>> {
     const { accessToken, refreshToken } =
       await this.authService.login(loginData);
 
-    response.cookie('token', refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    response.cookie('token', refreshToken, refreshCookieSettings);
 
     return {
       token: accessToken,
@@ -50,7 +41,19 @@ export class AuthController {
   }
 
   @Post('refresh')
-  public refresh(@Req() req: Request) {
-    const refreshToken = req.cookies?.token;
+  public async refresh(
+    @Req() req: express.Request,
+    @Res({ passthrough: true }) response: express.Response,
+  ): Promise<Record<string, string>> {
+    const { accessToken, refreshToken } =
+      await this.authService.validateToken(req);
+
+    response.cookie('token', refreshToken, refreshCookieSettings);
+    return {
+      token: accessToken,
+    };
   }
+
+  // @Post('logout')
+  // public async logout()
 }

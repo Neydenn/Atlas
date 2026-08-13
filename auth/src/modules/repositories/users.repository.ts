@@ -1,8 +1,8 @@
-import { InfrastructureType } from '../../../../shared/constants/infrastructure-type';
 import { Knex } from 'knex';
 import { RegisterDto } from '../dto/register-dto';
 import { User } from './types/user';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { InfrastructureType } from '../shared/infrastructure-type';
 
 @Injectable()
 export class UsersRepository {

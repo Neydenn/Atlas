@@ -7,14 +7,15 @@ import { User } from '../repositories/types/user';
 import { Token } from './types/token';
 import { LoginDto } from '../dto/login-dto';
 import type { Request } from 'express';
-import { asyncWrapProviders } from 'node:async_hooks';
-import { Cookie } from './types/cookie';
+import { RedisService } from './redis.service';
+import { JwtPayload } from './types/jwt-payload';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly jwtService: CustomJwtService,
+    private readonly redisService: RedisService,
   ) {}
 
   public async createUser(userData: RegisterDto): Promise<Token> {
@@ -59,20 +60,27 @@ export class AuthService {
   }
 
   public async validateToken(request: Request): Promise<Token> {
-    const token = request.cookies?.token as Cookie;
+    const token = request.cookies?.token as string;
     if (!token) {
       throw new UnauthorizedException('Token not found');
     }
-    const jwtPayload = await this.jwtService.verifyToken(token);
+    const jwtPayload: JwtPayload = await this.jwtService.verifyToken(token);
 
     if (!jwtPayload) {
       throw new UnauthorizedException('Token invalid');
+    }
+
+    const isTokenRevoke = await this.redisService.tokenIsRevoke(jwtPayload.jti);
+
+    if (!isTokenRevoke) {
+      throw new UnauthorizedException('Token is revoked!');
     }
 
     const user = await this.usersRepository.getUserById(jwtPayload.sub);
     const { accessToken, refreshToken } =
       await this.jwtService.generateToken(user);
 
+    await this.redisService.revoke(jwtPayload.jti, token);
     return { accessToken, refreshToken };
   }
 }

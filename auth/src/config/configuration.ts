@@ -1,7 +1,7 @@
 export default () => ({
   db: {
     port: 5432,
-    host: 'localhost',
+    host: 'host.lima.internal',
     name: 'atlas_users',
     user: process.env.user,
     password: process.env.password,

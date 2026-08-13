@@ -1,7 +1,7 @@
 import { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import knex from 'knex';
-import { InfrastructureType } from '../../../shared/constants/infrastructure-type';
+import { InfrastructureType } from '../../../auth/src/modules/shared/infrastructure-type';
 
 export const DatabaseProvider: Provider = {
   provide: InfrastructureType.QUERY_PG,
