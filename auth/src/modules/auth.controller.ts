@@ -54,6 +54,10 @@ export class AuthController {
     };
   }
 
-  // @Post('logout')
-  // public async logout()
+  @Post('logout')
+  public logout(@Res({ passthrough: true }) response: express.Response) {
+    response.clearCookie('refreshToken', { path: '/' });
+
+    return response.status(204).send();
+  }
 }
