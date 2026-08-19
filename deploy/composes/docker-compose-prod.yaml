@@ -46,6 +46,8 @@ services:
     depends_on:
       - gateway
       - redis
+    volumes:
+      - ../../certs/jwt/private.pem:/run/certs/jwt/private.pem:ro
     environment:
       DB_HOST: host.lima.internal
       DB_PORT: 5432
@@ -53,6 +55,7 @@ services:
       user: ${user}
       password: ${password}
       secret: ${secret}
+      JWT_PRIVATE_KEY_PATH: /run/certs/jwt/private.pem
 
   client:
     container_name: frontend

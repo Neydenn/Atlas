@@ -40,7 +40,9 @@ export class UsersRepository {
   }
 
   async getUserById(id: string): Promise<User> {
-    const user: User | undefined = await this.pg<User>('auth_user').where('id', id).first();
+    const user: User | undefined = await this.pg<User>('auth_user')
+      .where('id', id)
+      .first();
 
     if (!user) {
       throw new NotFoundException('User not found');

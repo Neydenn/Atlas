@@ -22,15 +22,16 @@ export class CustomJwtService {
       ...accessPayload,
       jti: randomUUID(),
     };
-    const jwtSecret: string | undefined = this.config.get<string>('jwt.secret');
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync<JwtPayload>(accessPayload, {
-        secret: jwtSecret,
-        expiresIn: '30m',
+        secret: 'RS256',
+        privateKey: this.config.get<string>('jwt.privateKey'),
+        expiresIn: '1m',
       }),
       this.jwtService.signAsync<JwtPayload>(refreshPayload, {
-        secret: jwtSecret,
+        secret: 'RS256',
+        privateKey: this.config.get<string>('jwt.privateKey'),
         expiresIn: '7d',
       }),
     ]);
