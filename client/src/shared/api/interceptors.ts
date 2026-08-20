@@ -1,8 +1,13 @@
 import {baseApi} from "./baseApi.ts";
-import {useAuthStore} from "../../modules/auth/store/AuthStore.ts";
+import {useTokenStore} from "../../app/store/TokenStore.ts";
+import type {InternalAxiosRequestConfig} from "axios";
+
+type RetryableRequest = InternalAxiosRequestConfig & {
+  _retry?: boolean;
+};
 
 baseApi.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
+  const token = useTokenStore.getState().token;
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -13,25 +18,24 @@ baseApi.interceptors.request.use((config) => {
 baseApi.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as RetryableRequest | undefined;
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retru = true;
+    if (error.response?.status === 401 && originalRequest &&
+      originalRequest.url !== '/auth/refresh' && !originalRequest._retry)
+    {
+      originalRequest._retry = true;
 
       try {
         const response = await baseApi.post('/auth/refresh');
-        const newAccessToken: string = response.data.access_token;
+        const newAccessToken: string = response.data.token;
 
-        useAuthStore.getState().setToken(newAccessToken);
+        useTokenStore.getState().setToken(newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return baseApi(originalRequest);
       } catch (refreshError) {
-        useAuthStore.getState().clearToken();
+        useTokenStore.getState().clearToken();
         return Promise.reject(refreshError);
       }
     }

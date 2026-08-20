@@ -56,7 +56,7 @@ export class AuthController {
 
   @Post('logout')
   public logout(@Res({ passthrough: true }) response: express.Response) {
-    response.clearCookie('refreshToken', { path: '/' });
+    response.clearCookie('token', { path: '/' });
 
     return response.status(204).send();
   }

@@ -5,3 +5,4 @@ export const AuthRouter = Router();
 
 AuthRouter.post("/login", authProxy)
 AuthRouter.post("/register", authProxy)
+AuthRouter.post("/refresh", authProxy)
